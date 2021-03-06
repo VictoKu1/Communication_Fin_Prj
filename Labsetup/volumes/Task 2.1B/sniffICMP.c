@@ -10,7 +10,7 @@ struct ethheader {
   u_short ether_type;                  /* IP? ARP? RARP? etc */
 };
 
-truct ipheader {
+struct ipheader {
   unsigned char      iph_ihl:4, //IP header length
                      iph_ver:4; //IP version
   unsigned char      iph_tos; //Type of service
@@ -46,10 +46,10 @@ int main()
   pcap_t *handle;
   char errbuf[PCAP_ERRBUF_SIZE];
   struct bpf_program fp;
- char filter_exp[] = "ICMP packets between hosts 10.0.2.4 and 208.67.222.222 ";
+ char filter_exp[] = "ICMP packets between hosts 10.9.0.5 and 208.67.222.222 ";
  bpf_u_int32 net;
-  //Step 1: Open live pcap session on NIC with name enp0s3.
- handle = pcap_open_live("enp0s3", BUFSIZ,1,1000,errbuf);
+  //*Step 1: Open live pcap session on NIC with name br-br-e26ab00cfd3a.
+ handle = pcap_open_live("br-e26ab00cfd3a", BUFSIZ,1,1000,errbuf);
 
  // Step 2: Compile filter_exp into BPF psuedo-code .
   pcap_compile(handle, &fp, filter_exp, 0, net);      

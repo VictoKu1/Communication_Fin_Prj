@@ -2,6 +2,11 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/ip.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+/* Ethernet addresses are 6 bytes */
+#define ETHER_ADDR_LEN 6
+#define PACKET_LEN 512
 /* IP Header */
 struct ipheader {
     unsigned char      iph_ihl:4, //IP header length
@@ -38,6 +43,28 @@ struct udpheader
     u_int16_t udp_dport;           /* destination port */
     u_int16_t udp_ulen;            /* udp length */
     u_int16_t udp_sum;             /* udp checksum */
+};
+/* TCP Header */
+struct tcpheader {
+    u_short tcp_sport;               /* source port */
+    u_short tcp_dport;               /* destination port */
+    u_int   tcp_seq;                 /* sequence number */
+    u_int   tcp_ack;                 /* acknowledgement number */
+    u_char  tcp_offx2;               /* data offset, rsvd */
+#define TH_OFF(th)      (((th)->tcp_offx2 & 0xf0) >> 4)
+    u_char  tcp_flags;
+#define TH_FIN  0x01
+#define TH_SYN  0x02
+#define TH_RST  0x04
+#define TH_PUSH 0x08
+#define TH_ACK  0x10
+#define TH_URG  0x20
+#define TH_ECE  0x40
+#define TH_CWR  0x80
+#define TH_FLAGS        (TH_FIN|TH_SYN|TH_RST|TH_ACK|TH_URG|TH_ECE|TH_CWR)
+    u_short tcp_win;                 /* window */
+    u_short tcp_sum;                 /* checksum */
+    u_short tcp_urp;                 /* urgent pointer */
 };
 /* Psuedo TCP header */
 struct pseudo_tcp
@@ -80,7 +107,6 @@ int main() {
     char buffer[1500];
 
     memset(buffer, 0, 1500);
-    struct ipheader *ip = (struct ipheader *) buffer;
     struct udpheader *udp = (struct udpheader *) (buffer +
                                                   sizeof(struct ipheader));
 
@@ -112,7 +138,7 @@ int main() {
     ip->iph_ihl = 5;
     ip->iph_ttl = 20;
     ip->iph_sourceip.s_addr = inet_addr("1.2.3.4");
-    ip->iph_destip.s_addr = inet_addr("10.0.2.5");
+    ip->iph_destip.s_addr = inet_addr("10.9.0.5");
 
     ip->iph_protocol = IPPROTO_UDP; // The value is 17.
     ip->iph_len = htons(sizeof(struct ipheader) +

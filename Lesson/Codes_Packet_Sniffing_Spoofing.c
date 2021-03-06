@@ -193,7 +193,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
 
     /* determine protocol */
     switch(ip->iph_protocol) {                               
-        case IPPROTO_TCP:
+        case IPPROTO_:
             printf("   Protocol: TCP\n");
             return;
         case IPPROTO_UDP:
