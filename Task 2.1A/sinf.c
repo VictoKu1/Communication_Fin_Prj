@@ -2,7 +2,7 @@
 #include <pcap.h>
 #include <arpa/inet.h>
 
-#define ETHER_ADDR_LEN	6 //* WHY IT EQUALS 6 ?
+#define ETHER_ADDR_LEN	6 /* Ethernet addresses are 6 bytes */
 
 struct ethheader {
   u_char  ether_dhost[ETHER_ADDR_LEN]; /* destination host address */
