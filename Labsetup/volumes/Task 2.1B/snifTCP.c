@@ -33,12 +33,12 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
     struct ipheader * ip = (struct ipheader *)
                            (packet + sizeof(struct ethheader)); 
 
-    printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
-    printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
 
     /* determine protocol */
     switch(ip->iph_protocol) {                               
         case IPPROTO_TCP:
+            printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
+            printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
             printf("   Protocol: TCP\n");
             return;
 

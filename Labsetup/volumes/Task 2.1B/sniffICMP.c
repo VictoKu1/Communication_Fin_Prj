@@ -1,3 +1,4 @@
+
 #include <pcap.h>
 #include <stdio.h>
 #include <arpa/inet.h>
@@ -37,7 +38,15 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
 
     printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
     printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
-
+/*  char ipa[]="10.9.0.5";
+    char ipb[]="208.67.222.222";
+    if (strncmp(inet_ntoa(ip->iph_sourceip),ipa,strlen(ipa))==0||strncmp(inet_ntoa(ip->iph_sourceip),ipb,strlen(ipb))==0){
+        if(strncmp(inet_ntoa(ip->iph_destip),ipa,strlen(ipa))==0||strncmp(inet_ntoa(ip->iph_destip),ipb,strlen(ipb))==0){
+            printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
+            printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
+        }
+    }
+*/
  }
 }
 
