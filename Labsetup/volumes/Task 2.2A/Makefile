@@ -1,5 +1,5 @@
 all: spoof.c
 	gcc spoof.c -o spoof -lpcap
-.PHONY:
+.PHONY: clean all
 clean:
 	rm -f spoof

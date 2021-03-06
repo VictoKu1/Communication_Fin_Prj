@@ -1,7 +1,7 @@
 all: sniffICMP.c snifTCP.c
 	gcc sniffICMP.c -o sniffICMP -lpcap
 	gcc snifTCP.c -o sniffTCP -lpcap
-.PHONY:
+.PHONY: clean all
 clean:
 	rm -rf sniffICMP sniffTCP
 	

@@ -1,5 +1,5 @@
 all: spoofIcmpEcho.c
 	gcc spoofIcmpEcho.c -o spoofIcmpEcho -lpcap
-.PHONY:
+.PHONY: clean all
 clean:
 	rm -f spoofIcmpEcho.c
