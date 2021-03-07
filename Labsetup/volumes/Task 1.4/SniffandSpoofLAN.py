@@ -3,25 +3,20 @@ from scapy.layers.inet import *
 
 
 def spoof(pkt):
+
     # create new ICMP header inorder to fake a response
     spoofed = ICMP()
     spoofed.type = 0
-    spoofed.id = pkt[ICMP].id
-    spoofed.seq = pkt[ICMP].seq
 
     #create new IP header and swapping src and dest in spoofted packet
     changedIP = IP()
-    changedIP.src = pkt[IP].dst
-    changedIP.dst = pkt[IP].src
+    changedIP.src = pkt[ARP].pdst
+    changedIP.dst = pkt[ARP].psrc
 
-    # copying message from original packet
-    newRAW = Raw()
-    newRAW.load = pkt[Raw].load
 
     # putting together the entire spoofed packet to send back
-    madePacket = changedIP/spoofed/newRAW
-
+    madePacket = changedIP/spoofed
     send(madePacket)
 
 
-pkt = sniff(iface=['br-82771e18ec80', 'enp0s3'], filter='icmp[icmptype] == icmp-echo', prn=spoof)
+pkt = sniff(iface=['br-e2f0ea1b68d8'], filter='arp[6:2] = 1', prn=spoof)
