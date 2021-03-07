@@ -57,8 +57,8 @@ int main()
   struct bpf_program fp;
  char filter_exp[] = "ICMP packets between hosts 10.9.0.5 and 208.67.222.222 ";
  bpf_u_int32 net;
-  //*Step 1: Open live pcap session on NIC with name br-br-e26ab00cfd3a.
- handle = pcap_open_live("br-e26ab00cfd3a", BUFSIZ,1,1000,errbuf);
+  //*Step 1: Open live pcap session on NIC with name br-1ca35f87b2fa.
+ handle = pcap_open_live("br-1ca35f87b2fa", BUFSIZ,1,1000,errbuf);
 
  // Step 2: Compile filter_exp into BPF psuedo-code .
   pcap_compile(handle, &fp, filter_exp, 0, net);      

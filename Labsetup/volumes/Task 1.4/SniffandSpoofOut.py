@@ -24,4 +24,4 @@ def spoof(pkt):
     send(madePacket)
 
 
-pkt = sniff(iface=['br-82771e18ec80', 'enp0s3'], filter='icmp[icmptype] == icmp-echo', prn=spoof)
+pkt = sniff(iface=['br-1ca35f87b2fa', 'enp0s3'], filter='icmp[icmptype] == icmp-echo', prn=spoof)

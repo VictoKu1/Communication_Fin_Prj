@@ -65,7 +65,7 @@ void send_raw_ip_packet(struct ipheader* ip)
     close(sock);
 }
 
-void send_echo_reply(struct ipheader * ip)
+void spoof(struct ipheader * ip)
 {
     const char buffer[1500];
     int ip_header_len = ip->iph_ihl * 4;
@@ -113,6 +113,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
             return;
         case IPPROTO_ICMP:
             printf("   Protocol: ICMP\n");
+            spoof(ip);
             return;
         default:
             printf("   Protocol: others\n");
@@ -129,8 +130,8 @@ int main()
   char filter_exp[] = "ICMP from some src and dest IP 10.9.0.5 .";
   bpf_u_int32 net;
 
-  // Step 1: Open live pcap session on NIC with name br-e26ab00cfd3a
-  handle = pcap_open_live("br-e26ab00cfd3a", BUFSIZ, 1, 1000, errbuf); 
+  //*Step 1: Open live pcap session on NIC with name br-1ca35f87b2fa.
+  handle = pcap_open_live("br-1ca35f87b2fa", BUFSIZ, 1, 1000, errbuf); 
 
   // Step 2: Compile filter_exp into BPF psuedo-code
   pcap_compile(handle, &fp, filter_exp, 0, net);      

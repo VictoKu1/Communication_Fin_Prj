@@ -4,4 +4,4 @@ def print_pkt(pkt):
 	pkt.show()
 
 	
-pkt = sniff(iface=['br-82771e18ec80', 'enp0s3'], filter = 'icmp', prn=print_pkt)
+pkt = sniff(iface=['br-1ca35f87b2fa', 'enp0s3'], filter = 'icmp', prn=print_pkt)
