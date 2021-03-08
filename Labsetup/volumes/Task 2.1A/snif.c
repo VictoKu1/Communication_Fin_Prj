@@ -50,11 +50,7 @@ bpf_u_int32 net;
 // Step 1: Open live pcap session on NIC with name br-1ca35f87b2fa
 // Students needs to change "eth3" to the name
 // found on their own machines (using ifconfig).
-<<<<<<< HEAD
 handle = pcap_open_live("br-1ca35f87b2fa", BUFSIZ, 1, 1000, errbuf);
-=======
-handle = pcap_open_live("br-e2f0ea1b68d8", BUFSIZ, 1, 1000, errbuf);
->>>>>>> d567475a07686b3e35cc4e6c9b96635694cca7ea
 // Step 2: Compile filter_exp into BPF psuedo-code
 pcap_compile(handle, &fp, filter_exp, 0, net);
 pcap_setfilter(handle, &fp);
