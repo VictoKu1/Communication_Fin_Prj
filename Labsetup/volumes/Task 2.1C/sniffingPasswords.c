@@ -66,7 +66,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
   struct ipheader *iphdr = (struct ipheader *)(packet + sizeof(struct ethheader));
   struct tcpheader *tcphdr = (struct tcpheader *)(packet + sizeof(struct ipheader) + sizeof(struct ethheader));
   char *telnet = (char *)(packet + sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct tcpheader));
-  int telnet_size = ntohs((iphdr->iph_len) - sizeof(struct ipheader) - sizeof(struct tcpheader));
+  int telnet_size = ntohs(iphdr->iph_len) - sizeof(struct ipheader) - sizeof(struct tcpheader);
   for (int i = 0; i < telnet_size; i++)
   {
     printf("%c",telnet[i]);
