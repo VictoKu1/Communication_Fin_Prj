@@ -27,26 +27,12 @@ struct ipheader {
 };
 
 
-void got_packet(u_char *args, const struct pcap_pkthdr *header, 
-                              const u_char *packet)
-{
+void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet){
   struct ethheader *eth = (struct ethheader *)packet;
-
   if (ntohs(eth->ether_type) == 0x0800) { // 0x0800 is IP type
-    struct ipheader * ip = (struct ipheader *)
-                           (packet + sizeof(struct ethheader)); 
-
+    struct ipheader * ip = (struct ipheader *)(packet + sizeof(struct ethheader)); 
     printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
     printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
-/*  char ipa[]="10.9.0.5";
-    char ipb[]="208.67.222.222";
-    if (strncmp(inet_ntoa(ip->iph_sourceip),ipa,strlen(ipa))==0||strncmp(inet_ntoa(ip->iph_sourceip),ipb,strlen(ipb))==0){
-        if(strncmp(inet_ntoa(ip->iph_destip),ipa,strlen(ipa))==0||strncmp(inet_ntoa(ip->iph_destip),ipb,strlen(ipb))==0){
-            printf("       From: %s\n", inet_ntoa(ip->iph_sourceip));  
-            printf("         To: %s\n", inet_ntoa(ip->iph_destip));   
-        }
-    }
-*/
  }
 }
 
@@ -55,12 +41,12 @@ int main()
   pcap_t *handle;
   char errbuf[PCAP_ERRBUF_SIZE];
   struct bpf_program fp;
- char filter_exp[] = "ICMP packets between hosts 10.9.0.5 and 208.67.222.222 ";
- bpf_u_int32 net;
+  char filter_exp[] = "ICMP packets between hosts 10.9.0.5 and 208.67.222.222 ";
+  bpf_u_int32 net;
   //*Step 1: Open live pcap session on NIC with name br-1ca35f87b2fa.
- handle = pcap_open_live("br-1ca35f87b2fa", BUFSIZ,1,1000,errbuf);
+  handle = pcap_open_live("br-1ca35f87b2fa", BUFSIZ,1,1000,errbuf);
 
- // Step 2: Compile filter_exp into BPF psuedo-code .
+  // Step 2: Compile filter_exp into BPF psuedo-code .
   pcap_compile(handle, &fp, filter_exp, 0, net);      
   pcap_setfilter(handle, &fp);                             
 
